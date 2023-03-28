@@ -2,21 +2,15 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
-  id: Int!
-  email: String!
-  name: String
-  posts: [Post!]
-}
-
 type Post {
-  id: Int!
+  id: ID!
   createdAt: Timestamp!
   updatedAt: Timestamp!
   title: String!
   content: String
-  published: Boolean
+  published: Boolean!
   viewCount: Int!
+  authorId: Int
   author: User
 }
 
@@ -25,42 +19,36 @@ type Post {
 """
 scalar Timestamp
 
+type UserCount {
+  posts: Int!
+}
+
+type User {
+  id: ID!
+  email: String!
+  name: String
+  posts: [Post!]
+  _count: UserCount!
+}
+
 type Query {
-  allUsers: [User!]
-  draftsByUser(userUniqueInput: UserUniqueInput!): [Post!]
-  postById(id: Float!): Post
-  feed(searchString: String, skip: Float, take: Float, orderBy: PostOrderByUpdatedAtInput): [Post!]!
-}
-
-input UserUniqueInput {
-  id: Float
-  email: String
-}
-
-input PostOrderByUpdatedAtInput {
-  updatedAt: SortOrder!
-}
-
-enum SortOrder {
-  asc
-  desc
+  users: [User!]!
+  user(id: Int!): User!
 }
 
 type Mutation {
-  signupUser(data: UserCreateInput!): User!
-  createDraft(data: PostCreateInput!, authorEmail: String!): Post!
-  incrementPostViewCount(id: Float!): Post!
-  togglePublishPost(id: Float!): Post
-  deletePost(id: Float!): Post
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: Int!): User!
 }
 
-input UserCreateInput {
-  email: String!
-  name: String
-  posts: [PostCreateInput!]
+input CreateUserInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
 }
 
-input PostCreateInput {
-  title: String!
-  content: String
+input UpdateUserInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }
