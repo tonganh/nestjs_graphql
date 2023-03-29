@@ -6,12 +6,14 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { UserModule } from './modules/user/user.module';
 import { PrismaModule } from 'nestjs-prisma';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+import { NutritionalIngredientsModule } from './modules/nutritional-ingredients/nutritional-ingredients.module';
 
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: true,
+      introspection: true,
       buildSchemaOptions: { dateScalarMode: 'timestamp' },
       playground: false,
       plugins: [
@@ -26,6 +28,8 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
     }),
 
     UserModule,
+
+    NutritionalIngredientsModule,
   ],
   controllers: [],
   providers: [AppResolver],

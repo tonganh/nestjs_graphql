@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["linux-musl", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
@@ -31,4 +32,46 @@ model Post {
   viewCount Int      @default(0)
   author    User?    @relation(fields: [authorId], references: [id])
   authorId  Int?
+}
+
+// Thành phần dinh dưỡng
+model NutritionalIngredients {
+  id                             Int                              @id @default(autoincrement())
+  name                           String?
+  description                    String?
+  NutritionalIngredientsMaterial NutritionalIngredientsMaterial[]
+
+  @@map("nutritional_ingredients")
+}
+
+model QualitativeUnit {
+  id                             Int                              @id @default(autoincrement())
+  name                           String?
+  symbol                         String?
+  NutritionalIngredientsMaterial NutritionalIngredientsMaterial[]
+
+  @@map("qualitative_unit")
+}
+
+model Material {
+  id                             Int                              @id @default(autoincrement())
+  name                           String?
+  imgUrl                         String?                          @map("img_url")
+  description                    String?
+  NutritionalIngredientsMaterial NutritionalIngredientsMaterial[]
+
+  @@map("material")
+}
+
+model NutritionalIngredientsMaterial {
+  nutritionalIngredientsId Int @map("nutritional_ingredients_id")
+  materialId               Int @map("material_id")
+  qualitativeUnitId        Int @map("qulitativeUnitIt")
+
+  nutritionalIngredients NutritionalIngredients @relation(fields: [nutritionalIngredientsId], references: [id])
+  materia                Material               @relation(fields: [materialId], references: [id])
+  qualitativeUnit        QualitativeUnit        @relation(fields: [qualitativeUnitId], references: [id])
+
+  @@id([nutritionalIngredientsId, materialId, qualitativeUnitId])
+  @@map("nutritioanl_ingredients_material")
 }
