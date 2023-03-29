@@ -8,11 +8,14 @@ variables:
   NAME: ${GITLAB_REGISTRY}/${GITLAB_USER}/${CONTAINER_NAME}
   TAG: ${CI_COMMIT_SHORT_SHA}
 
+before_script:
+  - docker info
+
+services:
+  - docker:20.10.16-dind
+
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
-  image: docker:19.03.12
-  services:
-    - docker:19.03.12-dind
   script:
     - echo ${TAG}
     - docker login ${GITLAB_REGISTRY} -u ${GITLAB_USERNAME} -p ${GITLAB_TOKEN}
