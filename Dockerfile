@@ -10,6 +10,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 COPY prisma ./prisma/
+RUN npx prisma generate
 RUN yarn build
 
 # Production image
