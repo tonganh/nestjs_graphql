@@ -19,7 +19,7 @@ build-job:       # This job runs in the build stage, which runs first.
   stage: build
   script:
     - echo ${TAG}
-    - docker login ${GITLAB_REGISTRY} -u ${GITLAB_USERNAME} -p ${GITLAB_TOKEN}
+    - docker login ${GITLAB_REGISTRY} -u ${GITLAB_USERNAME} -p lovehangga
     - docker build --cache-from ${NAME}:latest -t ${NAME}:${TAG} .
     - docker tag ${NAME}:${TAG} ${NAME}:latest
     - docker push ${NAME}:${TAG}
