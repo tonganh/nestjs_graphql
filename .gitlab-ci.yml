@@ -1,15 +1,30 @@
 stages:          # List of stages for jobs, and their order of execution
   - build
   - deploy
+variables:
+  CONTAINER_NAME: food_wiki_graphql_api
+  GITLAB_REGISTRY: registry.gitlab.com
+  GITLAB_USER: anh.tn184040
+  NAME: ${GITLAB_REGISTRY}/${GITLAB_USER}/${CONTAINER_NAME}
+  TAG: ${CI_COMMIT_SHORT_SHA}
 
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
   script:
-    - echo "Compiling the code..."
-    - echo "Compile complete."
+    - echo ${TAG}
+    - docker login ${GITLAB_REGISTRY} -u ${GITLAB_USERNAME} -p ${GITLAB_TOKEN}
+    - docker build --cache-from ${NAME}:latest -t ${NAME}:${TAG} .
+    - docker tag ${NAME}:${TAG} ${NAME}:latest
+    - docker push ${NAME}:${TAG}
+    - docker push ${NAME}:latest
+    # Remove untagged images
+    - docker images | grep "${NAME}" | grep "<none>" | awk '{print $3}' | xargs docker rmi -f || true
+
   only:
       refs:
         - master
+      changes:
+        - src/**/*
 
 deploy-job:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
