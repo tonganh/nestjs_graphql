@@ -2,7 +2,7 @@ import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { NutritionalIngredientsMaterialScalarWhereInput } from './nutritional-ingredients-material-scalar-where.input';
 import { Type } from 'class-transformer';
-import { NutritionalIngredientsMaterialUncheckedUpdateManyWithoutNutritionalIngredientsMaterialInput } from './nutritional-ingredients-material-unchecked-update-many-without-nutritional-ingredients-material.input';
+import { NutritionalIngredientsMaterialUpdateManyMutationInput } from './nutritional-ingredients-material-update-many-mutation.input';
 
 @InputType()
 export class NutritionalIngredientsMaterialUpdateManyWithWhereWithoutNutritionalIngredientsInput {
@@ -11,7 +11,7 @@ export class NutritionalIngredientsMaterialUpdateManyWithWhereWithoutNutritional
     @Type(() => NutritionalIngredientsMaterialScalarWhereInput)
     where!: NutritionalIngredientsMaterialScalarWhereInput;
 
-    @Field(() => NutritionalIngredientsMaterialUncheckedUpdateManyWithoutNutritionalIngredientsMaterialInput, {nullable:false})
-    @Type(() => NutritionalIngredientsMaterialUncheckedUpdateManyWithoutNutritionalIngredientsMaterialInput)
-    data!: NutritionalIngredientsMaterialUncheckedUpdateManyWithoutNutritionalIngredientsMaterialInput;
+    @Field(() => NutritionalIngredientsMaterialUpdateManyMutationInput, {nullable:false})
+    @Type(() => NutritionalIngredientsMaterialUpdateManyMutationInput)
+    data!: NutritionalIngredientsMaterialUpdateManyMutationInput;
 }

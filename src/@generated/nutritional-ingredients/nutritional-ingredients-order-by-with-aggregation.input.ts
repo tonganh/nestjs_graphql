@@ -19,6 +19,15 @@ export class NutritionalIngredientsOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
     description?: keyof typeof SortOrder;
 
+    @Field(() => SortOrder, {nullable:true})
+    createdAt?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    updatedAt?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    deleted?: keyof typeof SortOrder;
+
     @Field(() => NutritionalIngredientsCountOrderByAggregateInput, {nullable:true})
     _count?: NutritionalIngredientsCountOrderByAggregateInput;
 

@@ -15,4 +15,13 @@ export class MaterialMaxAggregateInput {
 
     @Field(() => Boolean, {nullable:true})
     description?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    createdAt?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    updatedAt?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    deletedAt?: true;
 }

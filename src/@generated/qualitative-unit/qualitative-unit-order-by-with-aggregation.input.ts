@@ -19,6 +19,15 @@ export class QualitativeUnitOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
     symbol?: keyof typeof SortOrder;
 
+    @Field(() => SortOrder, {nullable:true})
+    createdAt?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    updatedAt?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    deleted?: keyof typeof SortOrder;
+
     @Field(() => QualitativeUnitCountOrderByAggregateInput, {nullable:true})
     _count?: QualitativeUnitCountOrderByAggregateInput;
 

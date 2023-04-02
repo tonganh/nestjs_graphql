@@ -15,6 +15,15 @@ export class NutritionalIngredientsOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
     description?: keyof typeof SortOrder;
 
+    @Field(() => SortOrder, {nullable:true})
+    createdAt?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    updatedAt?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    deleted?: keyof typeof SortOrder;
+
     @Field(() => NutritionalIngredientsMaterialOrderByRelationAggregateInput, {nullable:true})
     NutritionalIngredientsMaterial?: NutritionalIngredientsMaterialOrderByRelationAggregateInput;
 }

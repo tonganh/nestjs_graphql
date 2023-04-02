@@ -19,6 +19,15 @@ export class QualitativeUnitGroupBy {
     @Field(() => String, {nullable:true})
     symbol?: string;
 
+    @Field(() => Date, {nullable:false})
+    createdAt!: Date | string;
+
+    @Field(() => Date, {nullable:false})
+    updatedAt!: Date | string;
+
+    @Field(() => Date, {nullable:true})
+    deleted?: Date | string;
+
     @Field(() => QualitativeUnitCountAggregate, {nullable:true})
     _count?: QualitativeUnitCountAggregate;
 

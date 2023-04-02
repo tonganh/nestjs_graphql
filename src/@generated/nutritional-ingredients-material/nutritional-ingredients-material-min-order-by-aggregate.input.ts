@@ -13,4 +13,13 @@ export class NutritionalIngredientsMaterialMinOrderByAggregateInput {
 
     @Field(() => SortOrder, {nullable:true})
     qualitativeUnitId?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    createdAt?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    updatedAt?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    deletedAt?: keyof typeof SortOrder;
 }

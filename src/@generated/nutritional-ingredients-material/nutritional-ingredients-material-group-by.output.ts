@@ -19,6 +19,15 @@ export class NutritionalIngredientsMaterialGroupBy {
     @Field(() => Int, {nullable:false})
     qualitativeUnitId!: number;
 
+    @Field(() => Date, {nullable:false})
+    createdAt!: Date | string;
+
+    @Field(() => Date, {nullable:false})
+    updatedAt!: Date | string;
+
+    @Field(() => Date, {nullable:true})
+    deletedAt?: Date | string;
+
     @Field(() => NutritionalIngredientsMaterialCountAggregate, {nullable:true})
     _count?: NutritionalIngredientsMaterialCountAggregate;
 

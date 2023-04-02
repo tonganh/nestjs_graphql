@@ -7,4 +7,7 @@ export class MaterialCount {
 
     @Field(() => Int, {nullable:false})
     NutritionalIngredientsMaterial?: number;
+
+    @Field(() => Int, {nullable:false})
+    DishMateria?: number;
 }

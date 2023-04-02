@@ -40,25 +40,37 @@ model NutritionalIngredients {
   name                           String?
   description                    String?
   NutritionalIngredientsMaterial NutritionalIngredientsMaterial[]
+  createdAt                      DateTime                         @default(now()) @map("created_at")
+  updatedAt                      DateTime                         @default(now()) @updatedAt @map("updated_at")
+  deleted                        DateTime?                        @map("deleted_at")
 
   @@map("nutritional_ingredients")
 }
 
 model QualitativeUnit {
-  id                             Int                              @id @default(autoincrement())
-  name                           String?
-  symbol                         String?
+  id        Int       @id @default(autoincrement())
+  name      String?
+  symbol    String?
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @default(now()) @updatedAt @map("updated_at")
+  deleted   DateTime? @map("deleted_at")
+
   NutritionalIngredientsMaterial NutritionalIngredientsMaterial[]
 
   @@map("qualitative_unit")
 }
 
 model Material {
-  id                             Int                              @id @default(autoincrement())
-  name                           String?
-  imgUrl                         String?                          @map("img_url")
-  description                    String?
+  id          Int       @id @default(autoincrement())
+  name        String?
+  imgUrl      String?   @map("img_url")
+  description String?
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at")
+  deletedAt   DateTime? @map("deleted_at")
+
   NutritionalIngredientsMaterial NutritionalIngredientsMaterial[]
+  DishMateria                    DishMateria[]
 
   @@map("material")
 }
@@ -68,10 +80,41 @@ model NutritionalIngredientsMaterial {
   materialId               Int @map("material_id")
   qualitativeUnitId        Int @map("qulitativeUnitIt")
 
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @default(now()) @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
   nutritionalIngredients NutritionalIngredients @relation(fields: [nutritionalIngredientsId], references: [id])
   materia                Material               @relation(fields: [materialId], references: [id])
   qualitativeUnit        QualitativeUnit        @relation(fields: [qualitativeUnitId], references: [id])
 
   @@id([nutritionalIngredientsId, materialId, qualitativeUnitId])
   @@map("nutritioanl_ingredients_material")
+}
+
+model Dish {
+  id    Int     @id @default(autoincrement())
+  name  String?
+  image String?
+  guide String?
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @default(now()) @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  DishMateria DishMateria[]
+}
+
+model DishMateria {
+  id         Int     @id @default(autoincrement())
+  materiaId  Int     @map("materia_id")
+  dishId     Int     @map("dish_id")
+  amountText String? @map("amount_text")
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @default(now()) @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  material Material @relation(fields: [materiaId], references: [id])
+  dish     Dish     @relation(fields: [dishId], references: [id])
 }

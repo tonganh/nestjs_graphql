@@ -12,4 +12,13 @@ export class NutritionalIngredientsMaterialMaxAggregateInput {
 
     @Field(() => Boolean, {nullable:true})
     qualitativeUnitId?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    createdAt?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    updatedAt?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    deletedAt?: true;
 }

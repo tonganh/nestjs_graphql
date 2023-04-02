@@ -11,6 +11,15 @@ export class QualitativeUnitCreateInput {
     @Field(() => String, {nullable:true})
     symbol?: string;
 
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+
+    @Field(() => Date, {nullable:true})
+    deleted?: Date | string;
+
     @Field(() => NutritionalIngredientsMaterialCreateNestedManyWithoutQualitativeUnitInput, {nullable:true})
     NutritionalIngredientsMaterial?: NutritionalIngredientsMaterialCreateNestedManyWithoutQualitativeUnitInput;
 }

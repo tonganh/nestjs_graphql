@@ -22,6 +22,15 @@ export class MaterialOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
     description?: keyof typeof SortOrder;
 
+    @Field(() => SortOrder, {nullable:true})
+    createdAt?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    updatedAt?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    deletedAt?: keyof typeof SortOrder;
+
     @Field(() => MaterialCountOrderByAggregateInput, {nullable:true})
     _count?: MaterialCountOrderByAggregateInput;
 

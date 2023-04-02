@@ -19,6 +19,15 @@ export class NutritionalIngredientsGroupBy {
     @Field(() => String, {nullable:true})
     description?: string;
 
+    @Field(() => Date, {nullable:false})
+    createdAt!: Date | string;
+
+    @Field(() => Date, {nullable:false})
+    updatedAt!: Date | string;
+
+    @Field(() => Date, {nullable:true})
+    deleted?: Date | string;
+
     @Field(() => NutritionalIngredientsCountAggregate, {nullable:true})
     _count?: NutritionalIngredientsCountAggregate;
 

@@ -4,7 +4,10 @@ export enum MaterialScalarFieldEnum {
     id = "id",
     name = "name",
     imgUrl = "imgUrl",
-    description = "description"
+    description = "description",
+    createdAt = "createdAt",
+    updatedAt = "updatedAt",
+    deletedAt = "deletedAt"
 }
 
 

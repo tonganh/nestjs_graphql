@@ -6,7 +6,8 @@ services:
   api:
     build:
       context: .
-    image: lovehangga/graphql_food_wiki_api
+    image: registry.gitlab.com/anh.tn184040/food_wiki_graphql_api
+    container_name: food_wiki_graphql_api
     depends_on:
       - db
     links:
@@ -21,6 +22,7 @@ services:
       - 3000:3000
   db:
     image: postgres:14.0-alpine
+    container_name: pg_food_wiki_graphql
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: gzr2efGPYs

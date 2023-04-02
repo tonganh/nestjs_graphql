@@ -13,4 +13,13 @@ export class NutritionalIngredientsMaterialMinAggregate {
 
     @Field(() => Int, {nullable:true})
     qualitativeUnitId?: number;
+
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+
+    @Field(() => Date, {nullable:true})
+    deletedAt?: Date | string;
 }

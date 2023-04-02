@@ -6,6 +6,15 @@ import { MaterialCreateNestedOneWithoutNutritionalIngredientsMaterialInput } fro
 @InputType()
 export class NutritionalIngredientsMaterialCreateWithoutQualitativeUnitInput {
 
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+
+    @Field(() => Date, {nullable:true})
+    deletedAt?: Date | string;
+
     @Field(() => NutritionalIngredientsCreateNestedOneWithoutNutritionalIngredientsMaterialInput, {nullable:false})
     nutritionalIngredients!: NutritionalIngredientsCreateNestedOneWithoutNutritionalIngredientsMaterialInput;
 

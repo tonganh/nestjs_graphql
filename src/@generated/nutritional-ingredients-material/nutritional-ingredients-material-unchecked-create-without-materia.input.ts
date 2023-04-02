@@ -10,4 +10,13 @@ export class NutritionalIngredientsMaterialUncheckedCreateWithoutMateriaInput {
 
     @Field(() => Int, {nullable:false})
     qualitativeUnitId!: number;
+
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+
+    @Field(() => Date, {nullable:true})
+    deletedAt?: Date | string;
 }

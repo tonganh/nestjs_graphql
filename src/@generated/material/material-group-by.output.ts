@@ -22,6 +22,15 @@ export class MaterialGroupBy {
     @Field(() => String, {nullable:true})
     description?: string;
 
+    @Field(() => Date, {nullable:false})
+    createdAt!: Date | string;
+
+    @Field(() => Date, {nullable:false})
+    updatedAt!: Date | string;
+
+    @Field(() => Date, {nullable:true})
+    deletedAt?: Date | string;
+
     @Field(() => MaterialCountAggregate, {nullable:true})
     _count?: MaterialCountAggregate;
 

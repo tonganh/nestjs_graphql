@@ -16,6 +16,15 @@ export class NutritionalIngredients {
     @Field(() => String, {nullable:true})
     description!: string | null;
 
+    @Field(() => Date, {nullable:false})
+    createdAt!: Date;
+
+    @Field(() => Date, {nullable:false})
+    updatedAt!: Date;
+
+    @Field(() => Date, {nullable:true})
+    deleted!: Date | null;
+
     @Field(() => [NutritionalIngredientsMaterial], {nullable:true})
     NutritionalIngredientsMaterial?: Array<NutritionalIngredientsMaterial>;
 

@@ -15,5 +15,14 @@ export class QualitativeUnitCountAggregate {
     symbol!: number;
 
     @Field(() => Int, {nullable:false})
+    createdAt!: number;
+
+    @Field(() => Int, {nullable:false})
+    updatedAt!: number;
+
+    @Field(() => Int, {nullable:false})
+    deleted!: number;
+
+    @Field(() => Int, {nullable:false})
     _all!: number;
 }
