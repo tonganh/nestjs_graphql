@@ -1,371 +1,529 @@
-# GraphQL Server Example with NestJS (code-first)
+# NestJS project
 
-This example shows how to implement an **GraphQL server (code-first) with TypeScript** with the following stack:
+Node version using: **v18.13.0**
 
-- [NestJS](https://docs.nestjs.com/graphql/quick-start): Web framework for building scalable server-side applications
-- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)                  
-- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations               
-- [**SQLite**](https://www.sqlite.org/index.html): Local, file-based SQL database
+To run this project on local, you can follow step:
 
-The example was bootstrapped using the NestJS CLI command `nest new graphql-nestjs`.
+1, Install package in this project.
 
-## Getting started
+> yarn
 
-### 1. Download example and install dependencies
+2, Config env if you want. In this project, default port running in PORT 3000. You can run in another port by change value of **PORT**
 
-Download this example:
+3, Run command:
 
-```
-npx try-prisma@latest --template typescript/graphql-nestjs
-```
+> yarn dev
 
-Install npm dependencies:
+Or
 
-```
-cd graphql-nestjs
-npm install
-```
+> npm run dev
 
-<details><summary><strong>Alternative:</strong> Clone the entire repo</summary>
+To access the UI of graphQL, you can click the link run in terminal. Example, i used port 3000 to run this project. So i can access to the link
 
-Clone this repository:
+> http://localhost:3000/graphql
+
+## Below is request of api companies
 
 ```
-git clone git@github.com:prisma/prisma-examples.git --depth=1
-```
-
-Install npm dependencies:
-
-```
-cd prisma-examples/typescript/graphql-nestjs
-npm install
-```
-
-</details>
-
-### 2. Create and seed the database
-
-Run the following command to create your SQLite database file. This also creates the `User` and `Post` tables that are defined in [`prisma/schema.prisma`](./prisma/schema.prisma):
-
-```
-npx prisma migrate dev --name init
-```
-
-When `npx prisma migrate dev` is executed against a newly created database, seeding is also triggered. The seed file in [`prisma/seed.ts`](./prisma/seed.ts) will be executed and your database will be populated with the sample data.
-
-
-### 2. Start the GraphQL server
-
-Launch your GraphQL server with this command:
-
-```
-npm run dev
-```
-
-Navigate to [http://localhost:3000/graphql](http://localhost:3000/graphql) in your browser to explore the API of your GraphQL server in a [GraphQL Playground](https://github.com/prisma/graphql-playground).
-
-
-## Using the GraphQL API
-
-The schema that specifies the API operations of your GraphQL server is defined in [`./schema.graphql`](./schema.graphql). Below are a number of operations that you can send to the API using the GraphQL Playground.
-
-Feel free to adjust any operation by adding or removing fields. The GraphQL Playground helps you with its auto-completion and query validation features.
-
-### Retrieve all published posts and their authors
-
-```graphql
-query {
-  feed {
+query GetCompaniesData {
+  getCompaniesData {
     id
-    title
-    content
-    published
-    author {
+    createdAt
+    name
+    parentId
+    cost
+    children {
       id
+      createdAt
       name
-      email
-    }
-  }
-}
-```
-
-<details><summary><strong>See more API operations</strong></summary>
-
-### Retrieve the drafts of a user
-
-```graphql
-{
-  draftsByUser(
-    userUniqueInput: {
-      email: "mahmoud@prisma.io"
-    }
-  ) {
-    id
-    title
-    content
-    published
-    author {
-      id
-      name
-      email
-    }
-  }
-}
-```
-
-
-### Create a new user
-
-```graphql
-mutation {
-  signupUser(data: { name: "Sarah", email: "sarah@prisma.io" }) {
-    id
-  }
-}
-```
-
-### Create a new draft
-
-```graphql
-mutation {
-  createDraft(
-    data: { title: "Join the Prisma Slack", content: "https://slack.prisma.io" }
-    authorEmail: "alice@prisma.io"
-  ) {
-    id
-    viewCount
-    published
-    author {
-      id
-      name
-    }
-  }
-}
-```
-
-### Publish/unpublish an existing post
-
-```graphql
-mutation {
-  togglePublishPost(id: __POST_ID__) {
-    id
-    published
-  }
-}
-```
-
-Note that you need to replace the `__POST_ID__` placeholder with an actual `id` from a `Post` record in the database, e.g.`5`:
-
-```graphql
-mutation {
-  togglePublishPost(id: 5) {
-    id
-    published
-  }
-}
-```
-
-### Increment the view count of a post
-
-```graphql
-mutation {
-  incrementPostViewCount(id: __POST_ID__) {
-    id
-    viewCount
-  }
-}
-```
-
-Note that you need to replace the `__POST_ID__` placeholder with an actual `id` from a `Post` record in the database, e.g.`5`:
-
-```graphql
-mutation {
-  incrementPostViewCount(id: 5) {
-    id
-    viewCount
-  }
-}
-```
-
-### Search for posts that contain a specific string in their title or content
-
-```graphql
-{
-  feed(
-    searchString: "prisma"
-  ) {
-    id
-    title
-    content
-    published
-  }
-}
-```
-
-### Paginate and order the returned posts
-
-```graphql
-{
-  feed(
-    skip: 2
-    take: 2
-    orderBy: { updatedAt: desc }
-  ) {
-    id
-    updatedAt
-    title
-    content
-    published
-  }
-}
-```
-
-### Retrieve a single post
-
-```graphql
-{
-  postById(id: __POST_ID__ ) {
-    id
-    title
-    content
-    published
-  }
-}
-```
-
-Note that you need to replace the `__POST_ID__` placeholder with an actual `id` from a `Post` record in the database, e.g.`5`:
-
-```graphql
-{
-  postById(id: 5 ) {
-    id
-    title
-    content
-    published
-  }
-}
-```
-
-### Delete a post
-
-```graphql
-mutation {
-  deletePost(id: __POST_ID__) {
-    id
-  }
-}
-```
-
-Note that you need to replace the `__POST_ID__` placeholder with an actual `id` from a `Post` record in the database, e.g.`5`:
-
-```graphql
-mutation {
-  deletePost(id: 5) {
-    id
-  }
-}
-```
-
-</details>
-
-## Evolving the app
-
-Evolving the application typically requires two steps:
-
-1. Migrate your database using Prisma Migrate
-1. Update your application code
-
-For the following example scenario, assume you want to add a "profile" feature to the app where users can create a profile and write a short bio about themselves.
-
-### 1. Migrate your database using Prisma Migrate
-
-The first step is to add a new table, e.g. called `Profile`, to the database. You can do this by adding a new model to your [Prisma schema file](./prisma/schema.prisma) file and then running a migration afterwards:
-
-```diff
-// schema.prisma
-
-model Post {
-  id        Int     @default(autoincrement()) @id
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User?   @relation(fields: [authorId], references: [id])
-  authorId  Int
-}
-
-model User {
-  id      Int      @default(autoincrement()) @id 
-  name    String? 
-  email   String   @unique
-  posts   Post[]
-+ profile Profile?
-}
-
-+model Profile {
-+  id     Int     @default(autoincrement()) @id
-+  bio    String?
-+  userId Int     @unique
-+  user   User    @relation(fields: [userId], references: [id])
-+}
-```
-
-Once you've updated your data model, you can execute the changes against your database with the following command:
-
-```
-npx prisma migrate dev
-```
-
-### 2. Update your application code
-
-You can now use your `PrismaClient` instance to perform operations against the new `Profile` table. Here are some examples:
-
-#### Create a new profile for an existing user
-
-```ts
-const profile = await prisma.profile.create({
-  data: {
-    bio: "Hello World",
-    user: {
-      connect: { email: "alice@prisma.io" },
+      parentId
+      cost
+      children {
+        id
+        parentId
+        createdAt
+        name
+        cost
+        children {
+          cost
+          createdAt
+          id
+          name
+        }
+      }
     },
-  },
-});
+  }
+}
 ```
 
-#### Create a new user with a new profile
+## And The result:
 
-```ts
-const user = await prisma.user.create({
-  data: {
-    email: "john@prisma.io",
-    name: "John",
-    profile: {
-      create: {
-        bio: "Hello World",
+```
+{
+  "data": {
+    "getCompaniesData": [
+      {
+        "id": "uuid-1",
+        "createdAt": "2021-02-26T00:55:36.632Z",
+        "name": "Webprovise Corp",
+        "parentId": "0",
+        "cost": 52983,
+        "children": [
+          {
+            "id": "uuid-2",
+            "createdAt": "2021-02-25T10:35:32.978Z",
+            "name": "Stamm LLC",
+            "parentId": "uuid-1",
+            "cost": 5199,
+            "children": [
+              {
+                "id": "uuid-4",
+                "parentId": "uuid-2",
+                "createdAt": "2021-02-25T06:11:47.519Z",
+                "name": "Price and Sons",
+                "cost": 1340,
+                "children": []
+              },
+              {
+                "id": "uuid-7",
+                "parentId": "uuid-2",
+                "createdAt": "2021-02-25T07:56:32.335Z",
+                "name": "Zieme - Mills",
+                "cost": 1636,
+                "children": []
+              },
+              {
+                "id": "uuid-19",
+                "parentId": "uuid-2",
+                "createdAt": "2021-02-25T21:06:18.777Z",
+                "name": "Schneider - Adams",
+                "cost": 794,
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "uuid-3",
+            "createdAt": "2021-02-25T15:16:30.887Z",
+            "name": "Blanda, Langosh and Barton",
+            "parentId": "uuid-1",
+            "cost": 15713,
+            "children": [
+              {
+                "id": "uuid-5",
+                "parentId": "uuid-3",
+                "createdAt": "2021-02-25T13:35:57.923Z",
+                "name": "Hane - Windler",
+                "cost": 1288,
+                "children": []
+              },
+              {
+                "id": "uuid-6",
+                "parentId": "uuid-3",
+                "createdAt": "2021-02-26T01:41:06.479Z",
+                "name": "Vandervort - Bechtelar",
+                "cost": 2512,
+                "children": []
+              },
+              {
+                "id": "uuid-9",
+                "parentId": "uuid-3",
+                "createdAt": "2021-02-25T16:02:49.099Z",
+                "name": "Kuhic - Swift",
+                "cost": 3086,
+                "children": []
+              },
+              {
+                "id": "uuid-17",
+                "parentId": "uuid-3",
+                "createdAt": "2021-02-25T11:17:52.132Z",
+                "name": "Rohan, Mayer and Haley",
+                "cost": 4072,
+                "children": []
+              },
+              {
+                "id": "uuid-20",
+                "parentId": "uuid-3",
+                "createdAt": "2021-02-26T01:51:25.421Z",
+                "name": "Kunde, Armstrong and Hermann",
+                "cost": 908,
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "uuid-8",
+            "createdAt": "2021-02-25T23:47:57.596Z",
+            "name": "Bartell - Mosciski",
+            "parentId": "uuid-1",
+            "cost": 28817,
+            "children": [
+              {
+                "id": "uuid-10",
+                "parentId": "uuid-8",
+                "createdAt": "2021-02-26T01:39:33.438Z",
+                "name": "Lockman Inc",
+                "cost": 4288,
+                "children": []
+              },
+              {
+                "id": "uuid-11",
+                "parentId": "uuid-8",
+                "createdAt": "2021-02-26T00:32:01.307Z",
+                "name": "Parker - Shanahan",
+                "cost": 12236,
+                "children": [
+                  {
+                    "cost": 2110,
+                    "createdAt": "2021-02-25T06:44:56.245Z",
+                    "id": "uuid-12",
+                    "name": "Swaniawski Inc"
+                  },
+                  {
+                    "cost": 7254,
+                    "createdAt": "2021-02-25T15:22:08.098Z",
+                    "id": "uuid-14",
+                    "name": "Weimann, Runolfsson and Hand"
+                  }
+                ]
+              },
+              {
+                "id": "uuid-13",
+                "parentId": "uuid-8",
+                "createdAt": "2021-02-25T20:45:53.518Z",
+                "name": "Balistreri - Bruen",
+                "cost": 1686,
+                "children": []
+              },
+              {
+                "id": "uuid-15",
+                "parentId": "uuid-8",
+                "createdAt": "2021-02-25T18:00:26.864Z",
+                "name": "Predovic and Sons",
+                "cost": 4725,
+                "children": []
+              },
+              {
+                "id": "uuid-16",
+                "parentId": "uuid-8",
+                "createdAt": "2021-02-26T01:50:50.354Z",
+                "name": "Weissnat - Murazik",
+                "cost": 3277,
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "uuid-18",
+            "createdAt": "2021-02-26T02:31:22.154Z",
+            "name": "Walter, Schmidt and Osinski",
+            "parentId": "uuid-1",
+            "cost": 2033,
+            "children": []
+          }
+        ]
       },
-    },
-  },
-});
-```
-
-#### Update the profile of an existing user
-
-```ts
-const userWithUpdatedProfile = await prisma.user.update({
-  where: { email: "alice@prisma.io" },
-  data: {
-    profile: {
-      update: {
-        bio: "Hello Friends",
+      {
+        "id": "uuid-2",
+        "createdAt": "2021-02-25T10:35:32.978Z",
+        "name": "Stamm LLC",
+        "parentId": "uuid-1",
+        "cost": 5199,
+        "children": [
+          {
+            "id": "uuid-4",
+            "createdAt": "2021-02-25T06:11:47.519Z",
+            "name": "Price and Sons",
+            "parentId": "uuid-2",
+            "cost": 1340,
+            "children": []
+          },
+          {
+            "id": "uuid-7",
+            "createdAt": "2021-02-25T07:56:32.335Z",
+            "name": "Zieme - Mills",
+            "parentId": "uuid-2",
+            "cost": 1636,
+            "children": []
+          },
+          {
+            "id": "uuid-19",
+            "createdAt": "2021-02-25T21:06:18.777Z",
+            "name": "Schneider - Adams",
+            "parentId": "uuid-2",
+            "cost": 794,
+            "children": []
+          }
+        ]
       },
-    },
-  },
-});
+      {
+        "id": "uuid-3",
+        "createdAt": "2021-02-25T15:16:30.887Z",
+        "name": "Blanda, Langosh and Barton",
+        "parentId": "uuid-1",
+        "cost": 15713,
+        "children": [
+          {
+            "id": "uuid-5",
+            "createdAt": "2021-02-25T13:35:57.923Z",
+            "name": "Hane - Windler",
+            "parentId": "uuid-3",
+            "cost": 1288,
+            "children": []
+          },
+          {
+            "id": "uuid-6",
+            "createdAt": "2021-02-26T01:41:06.479Z",
+            "name": "Vandervort - Bechtelar",
+            "parentId": "uuid-3",
+            "cost": 2512,
+            "children": []
+          },
+          {
+            "id": "uuid-9",
+            "createdAt": "2021-02-25T16:02:49.099Z",
+            "name": "Kuhic - Swift",
+            "parentId": "uuid-3",
+            "cost": 3086,
+            "children": []
+          },
+          {
+            "id": "uuid-17",
+            "createdAt": "2021-02-25T11:17:52.132Z",
+            "name": "Rohan, Mayer and Haley",
+            "parentId": "uuid-3",
+            "cost": 4072,
+            "children": []
+          },
+          {
+            "id": "uuid-20",
+            "createdAt": "2021-02-26T01:51:25.421Z",
+            "name": "Kunde, Armstrong and Hermann",
+            "parentId": "uuid-3",
+            "cost": 908,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "uuid-4",
+        "createdAt": "2021-02-25T06:11:47.519Z",
+        "name": "Price and Sons",
+        "parentId": "uuid-2",
+        "cost": 1340,
+        "children": []
+      },
+      {
+        "id": "uuid-5",
+        "createdAt": "2021-02-25T13:35:57.923Z",
+        "name": "Hane - Windler",
+        "parentId": "uuid-3",
+        "cost": 1288,
+        "children": []
+      },
+      {
+        "id": "uuid-6",
+        "createdAt": "2021-02-26T01:41:06.479Z",
+        "name": "Vandervort - Bechtelar",
+        "parentId": "uuid-3",
+        "cost": 2512,
+        "children": []
+      },
+      {
+        "id": "uuid-7",
+        "createdAt": "2021-02-25T07:56:32.335Z",
+        "name": "Zieme - Mills",
+        "parentId": "uuid-2",
+        "cost": 1636,
+        "children": []
+      },
+      {
+        "id": "uuid-8",
+        "createdAt": "2021-02-25T23:47:57.596Z",
+        "name": "Bartell - Mosciski",
+        "parentId": "uuid-1",
+        "cost": 28817,
+        "children": [
+          {
+            "id": "uuid-10",
+            "createdAt": "2021-02-26T01:39:33.438Z",
+            "name": "Lockman Inc",
+            "parentId": "uuid-8",
+            "cost": 4288,
+            "children": []
+          },
+          {
+            "id": "uuid-11",
+            "createdAt": "2021-02-26T00:32:01.307Z",
+            "name": "Parker - Shanahan",
+            "parentId": "uuid-8",
+            "cost": 12236,
+            "children": [
+              {
+                "id": "uuid-12",
+                "parentId": "uuid-11",
+                "createdAt": "2021-02-25T06:44:56.245Z",
+                "name": "Swaniawski Inc",
+                "cost": 2110,
+                "children": []
+              },
+              {
+                "id": "uuid-14",
+                "parentId": "uuid-11",
+                "createdAt": "2021-02-25T15:22:08.098Z",
+                "name": "Weimann, Runolfsson and Hand",
+                "cost": 7254,
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "uuid-13",
+            "createdAt": "2021-02-25T20:45:53.518Z",
+            "name": "Balistreri - Bruen",
+            "parentId": "uuid-8",
+            "cost": 1686,
+            "children": []
+          },
+          {
+            "id": "uuid-15",
+            "createdAt": "2021-02-25T18:00:26.864Z",
+            "name": "Predovic and Sons",
+            "parentId": "uuid-8",
+            "cost": 4725,
+            "children": []
+          },
+          {
+            "id": "uuid-16",
+            "createdAt": "2021-02-26T01:50:50.354Z",
+            "name": "Weissnat - Murazik",
+            "parentId": "uuid-8",
+            "cost": 3277,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "uuid-9",
+        "createdAt": "2021-02-25T16:02:49.099Z",
+        "name": "Kuhic - Swift",
+        "parentId": "uuid-3",
+        "cost": 3086,
+        "children": []
+      },
+      {
+        "id": "uuid-10",
+        "createdAt": "2021-02-26T01:39:33.438Z",
+        "name": "Lockman Inc",
+        "parentId": "uuid-8",
+        "cost": 4288,
+        "children": []
+      },
+      {
+        "id": "uuid-11",
+        "createdAt": "2021-02-26T00:32:01.307Z",
+        "name": "Parker - Shanahan",
+        "parentId": "uuid-8",
+        "cost": 12236,
+        "children": [
+          {
+            "id": "uuid-12",
+            "createdAt": "2021-02-25T06:44:56.245Z",
+            "name": "Swaniawski Inc",
+            "parentId": "uuid-11",
+            "cost": 2110,
+            "children": []
+          },
+          {
+            "id": "uuid-14",
+            "createdAt": "2021-02-25T15:22:08.098Z",
+            "name": "Weimann, Runolfsson and Hand",
+            "parentId": "uuid-11",
+            "cost": 7254,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "uuid-12",
+        "createdAt": "2021-02-25T06:44:56.245Z",
+        "name": "Swaniawski Inc",
+        "parentId": "uuid-11",
+        "cost": 2110,
+        "children": []
+      },
+      {
+        "id": "uuid-13",
+        "createdAt": "2021-02-25T20:45:53.518Z",
+        "name": "Balistreri - Bruen",
+        "parentId": "uuid-8",
+        "cost": 1686,
+        "children": []
+      },
+      {
+        "id": "uuid-14",
+        "createdAt": "2021-02-25T15:22:08.098Z",
+        "name": "Weimann, Runolfsson and Hand",
+        "parentId": "uuid-11",
+        "cost": 7254,
+        "children": []
+      },
+      {
+        "id": "uuid-15",
+        "createdAt": "2021-02-25T18:00:26.864Z",
+        "name": "Predovic and Sons",
+        "parentId": "uuid-8",
+        "cost": 4725,
+        "children": []
+      },
+      {
+        "id": "uuid-16",
+        "createdAt": "2021-02-26T01:50:50.354Z",
+        "name": "Weissnat - Murazik",
+        "parentId": "uuid-8",
+        "cost": 3277,
+        "children": []
+      },
+      {
+        "id": "uuid-17",
+        "createdAt": "2021-02-25T11:17:52.132Z",
+        "name": "Rohan, Mayer and Haley",
+        "parentId": "uuid-3",
+        "cost": 4072,
+        "children": []
+      },
+      {
+        "id": "uuid-18",
+        "createdAt": "2021-02-26T02:31:22.154Z",
+        "name": "Walter, Schmidt and Osinski",
+        "parentId": "uuid-1",
+        "cost": 2033,
+        "children": []
+      },
+      {
+        "id": "uuid-19",
+        "createdAt": "2021-02-25T21:06:18.777Z",
+        "name": "Schneider - Adams",
+        "parentId": "uuid-2",
+        "cost": 794,
+        "children": []
+      },
+      {
+        "id": "uuid-20",
+        "createdAt": "2021-02-26T01:51:25.421Z",
+        "name": "Kunde, Armstrong and Hermann",
+        "parentId": "uuid-3",
+        "cost": 908,
+        "children": []
+      }
+    ]
+  }
+}
 ```
+## You can use docker to run project:
 
-## Next steps
+> docker compose up --build
 
-- Check out the [Prisma docs](https://www.prisma.io/docs)
-- Share your feedback in the [`#product-wishlist`](https://prisma.slack.com/messages/CKQTGR6T0/) channel on the [Prisma Slack](https://slack.prisma.io/)
-- Create issues and ask questions on [GitHub](https://github.com/prisma/prisma/)
-- Watch our biweekly "What's new in Prisma" livestreams on [Youtube](https://www.youtube.com/channel/UCptAHlN1gdwD89tFM3ENb6w)
+And by default, project can access with this link:
+
+> http://localhost:3000/graphql

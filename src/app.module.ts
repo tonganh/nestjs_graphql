@@ -3,13 +3,15 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { UserModule } from './modules/user/user.module';
 import { PrismaModule } from 'nestjs-prisma';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
-import { NutritionalIngredientsModule } from './modules/nutritional-ingredients/nutritional-ingredients.module';
+import { CompaniesModule } from './modules/companies/companies.module';
+import { HttpDataModule } from './modules/http-data/http-data.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: true,
@@ -22,14 +24,9 @@ import { NutritionalIngredientsModule } from './modules/nutritional-ingredients/
         }),
       ],
     }),
+    HttpDataModule,
 
-    PrismaModule.forRoot({
-      isGlobal: true,
-    }),
-
-    UserModule,
-
-    NutritionalIngredientsModule,
+    CompaniesModule,
   ],
   controllers: [],
   providers: [AppResolver],

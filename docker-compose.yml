@@ -1,33 +1,8 @@
 version: '3.3'
-networks:
-  food_wiki_graphql:
-    driver: bridge
 services:
   api:
     build:
       context: .
-    image: registry.gitlab.com/anh.tn184040/food_wiki_graphql_api
-    container_name: food_wiki_graphql_api
-    depends_on:
-      - db
-    links:
-      - db:db
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=gzr2efGPYs
-      - POSTGRES_HOST=db
-    networks:
-      - food_wiki_graphql
+    container_name: interview
     ports:
       - 3000:3000
-  db:
-    image: postgres:14.0-alpine
-    container_name: pg_food_wiki_graphql
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: gzr2efGPYs
-      POSTGRES_DB: food_wiki_graphql
-    ports:
-      - 5433:5432
-    networks:
-      - food_wiki_graphql
